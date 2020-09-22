@@ -365,4 +365,17 @@ WHERE
 }
 ```
 
-**4.** 
+**4.** Vérifier les faits qui peuvent être déduits des données précédentes (cf. règles de déduction) en vous inspirant de la requête **SPARQL** précédente.
+
+```xml
+<http://www.univ-larochelle.fr> rdf:type ex:InstitutionRecherche .
+<http://www.univ-larochelle.fr> rdf:type ex:InstitutionEnseignement .
+<http://www.univ-larochelle.fr> rdf:type ex:Institution .
+                          
+<http://www.univ-larochelle.fr/FredMartin> rdf:type ex:Personne .
+<http://www.univ-larochelle.fr/FredMartin> rdf:type ex:Enseignant .
+<http://www.univ-larochelle.fr/HenriDurand> rdf:type ex:Personne .
+<http://www.univ-larochelle.fr/RobertDupond> rdf:type ex:Personne .
+<http://www.univ-larochelle.fr/HerveBlanchon> rdf:type ex:Personne .
+```
+
