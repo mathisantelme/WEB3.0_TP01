@@ -222,7 +222,7 @@ ex:dirige rdfs:domain ex:Personne .
 ex:dirige rdfs:range rdf:List.
 ```
 
-**2.** Le schéma **RDF** sauivant:
+**2.** Le schéma **RDF** suivant:
 
 ```
 ex:ClasseA rdf:type rdfs:Class
@@ -284,5 +284,51 @@ WHERE {
 *Note:* La fonction du filtre est de sélectionner uniquement les classes définies dans l’espace de noms http://example.org (l’opérateur ^ vérifie que le nom de la ressource débute par l’espace de noms).
 
 ```xml
+<?xml version="1.0"?>
+<rdf:RDF xmlns:ex="http://example.org#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <rdfs:Class rdf:about="http://example.org#Institution" />
+    <rdfs:Class rdf:about="http://example.org#Universite">
+        <rdfs:subClassOf>
+            <rdfs:Class rdf:about="http://example.org#InstitutionRecherche">
+                <rdfs:subClassOf rdf:resource="http://example.org#Institution" />
+            </rdfs:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <rdfs:Class rdf:about="http://example.org#InstitutionEnseignement">
+                <rdfs:subClassOf rdf:resource="http://example.org#Institution" />
+            </rdfs:Class>
+        </rdfs:subClassOf>
+    </rdfs:Class>
 
+    <rdfs:Class rdf:about="http://example.org#Personne" />
+
+    <rdfs:Class rdf:about="http://example.org#Etudiant">
+        <rdfs:subClassOf rdf:resource="http://example.org#Personne" />
+    </rdfs:Class>
+
+    <rdfs:Class rdf:about="http://example.org#EtudiantMaster">
+        <rdfs:subClassOf rdf:resource="http://example.org#Etudiant" />
+    </rdfs:Class>
+
+    <rdfs:Class rdf:about="http://example.org#EtudiantDoctorat">
+        <rdfs:subClassOf>
+            <rdfs:Class rdf:about="http://example.org#Enseignant">
+                <rdfs:subClassOf rdf:resource="http://example.org#Personne" />
+            </rdfs:Class>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://example.org#Etudiant" />
+        <rdfs:comment>Un etudiant en doctorat est considere comme un etudiant et un enseignant</rdfs:comment>
+    </rdfs:Class>
+
+    <rdf:Property rdf:about="http://example.org#employePar">
+        <rdfs:domain rdf:resource="http://example.org#Personne" />
+        <rdfs:range rdf:resource="http://example.org#Institution" />
+    </rdf:Property>
+
+    <rdf:Property rdf:about="http://example.org#dirige">
+        <rdfs:domain rdf:resource="http://example.org#Personne" />
+        <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List" />
+    </rdf:Property>
+
+</rdf:RDF>
 ```
