@@ -173,3 +173,71 @@ graphe **RDF**) ;
     </rdf:Description>
 </rdf:RDF>
 ```
+
+## 4. Les schémas **RDF**
+
+**1.** Créer un schéma **RDF** (en notation **N3**) à partir des spécifications suivantes :
+- utiliser les classes suivantes : Institution, InstitutionRecherche, InstitutionEnseignement, Université, Personne, Etudiant, Enseignant, EtudiantMaster et EtudiantDoctorat ;
+- utiliser la propriété de subsomption (`rdfs:subClassOf`) pour relier les classes ;
+- définir des propriétés estEmployéPar et dirige (au sens où une personne peut diriger un ensemble de personnes).
+
+![ontologie](img/ontologieUniv.png)
+
+**2.** Le schéma **RDF** sauivant:
+
+```
+ex:ClasseA rdf:type rdfs:Class
+ex:ClasseB rdfs:subClassOf ex:ClasseA
+ex:unB rdf:type ex:ClasseB
+```
+
+Peut être écrit en **RDF**/**XML** de la manière suivante:
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+    <!ENTITY ex "http://example.org#">
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+]>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:ex="http://example.org#">
+
+    <rdf:Description rdf:about="&ex;ClasseA">
+        <rdf:type rdf:resource="&rdfs;Class" />
+    </rdf:Description>
+
+    <rdf:Description rdf:about="&ex;ClasseB">
+        <rdf:type rdf:resource="&rdfs;Class" />
+        <rdfs:subClassOf rdf:resource="&ex;ClasseA" />
+    </rdf:Description>
+
+    <rdf:Description rdf:about="&ex;unB">
+        <rdf:type rdf:resource="&ex;ClasseB" />
+    </rdf:Description>
+</rdf:RDF>
+```
+
+Ou si on abrège:
+
+```xml
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:ex="http://example.org#" xml:base="http://example.org">
+    <rdfs:Class rdf:ID="ClasseA" />
+    <rdfs:Class rdf:ID="ClasseB">
+        <rdfs:subClassOf rdf:resource="#ClasseA" />
+    </rdfs:Class>
+    <ex:ClasseB rdf:ID="unB" />
+</rdf:RDF>
+```
+
+**Donner la forme RDF/XML du schémas précédent (université) et vérifier sa validité, puis tester les classes définies dans le schéma via la requête SPARQL suivante:**
+
+```SQL
+PREFIX ex: <http://example.org#>
+SELECT ?x
+WHERE {
+    ?x rdf:type rdfs:Class .
+    FILTER (?x ^ ex: )
+}
+```
+
+*Note:* La fonction du filtre est de sélectionner uniquement les classes définies dans l’espace de noms http://example.org (l’opérateur ^ vérifie que le nom de la ressource débute par l’espace de noms).
