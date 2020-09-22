@@ -106,5 +106,70 @@ possède l’adresse électronique webmestre@univ-lr.fr.
 graphe **RDF**) ;
 - CORESE pour le format **RDF**/**N3**.
 
+**Au format RDF/XML:**
+
+```xml
+<?xml version="1.0"?>
+<rdf:RDF xmlns:ex="http://example.org#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about="http://www.springerlink.com/content/978-3-540-10235-9/">
+        <ex:auteur>Robin Milner</ex:auteur>
+    </rdf:Description>
+</rdf:RDF><?xml version="1.0"?>
+<rdf:RDF xmlns:ex="http://example.org#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about="http://www.univ-larochelle.fr">
+        <ex:webmestre rdf:resource="http://www.univ-larochelle.fr/Gaelle_Foret" />
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.univ-larochelle.fr/Gaelle_Foret">
+        <ex:adresseElectronique>webmestre@univ-lr.fr</ex:adresseElectronique>
+    </rdf:Description>
+
+</rdf:RDF>  
+```
+
+**Au format RDF/N3:**
+
+```xml
+@prefix ex: <http://example.org#> . 
+
+<http://www.springerlink.com/content/978-3-540-10235-9/> ex:auteur "Robin Milner" .
+
+@prefix ex: <http://example.org#> .
+# ici on crée un identifiant 'artificiel' pour Gaelle Foret
+<http://www.univ-larochelle.fr> ex:webmestre <http://www.univ-larochelle.fr/Gaelle_Foret> .
+<http://www.univ-larochelle.fr/Gaelle_Foret>    ex:nom "Gaelle Foret" ;
+                                                ex:adresseElectronique "webmestre@univ-lr.fr" . 
+```
+
 **2.** Modifier les triplets précédents pour utiliser cette fois-ci au moins un nœud anonyme
-(donner les deux formats : **N3** et **RDF**/**XML**) ;
+(donner les deux formats : **N3** et **RDF**/**XML**);
+
+**Avec le format RDF/N3:**
+
+```xml
+@prefix ex: <http://example.org#> . 
+
+<http://www.springerlink.com/content/978-3-540-10235-9/> ex:auteur [ ex:nom "Robin Milner" ] .
+@prefix ex: <http://example.org#> .
+
+<http://www.univ-larochelle.fr> ex:webmestre [
+   ex:nom "Gaelle Foret"
+   ex:adresseElectronique "webmestre@univ-lr.fr" ;
+   ] .
+```
+
+**Au format RDF/XML:**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:ex="http://example.org#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about="http://www.springerlink.com/content/978-3-540-10235-9/">
+        <ex:auteur ex:nom="Robin Milner" />
+    </rdf:Description>
+</rdf:RDF><?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:ex="http://example.org#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <rdf:Description rdf:about="http://www.univ-larochelle.fr">
+        <ex:webmestre ex:nom="Gaelle Foret" ex:adresseElectronique="webmestre@univ-lr.fr" />
+    </rdf:Description>
+</rdf:RDF>
+```
