@@ -183,6 +183,45 @@ graphe **RDF**) ;
 
 ![ontologie](img/ontologieUniv.png)
 
+**Le schéma université au format RDF/N3:** 
+
+```xml
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
+@prefix ex: <http://example.org#> . 
+
+# Definition des classes
+ex:Institution rdf:type rdfs:Class .
+ex:InstitutionRecherche  rdf:type rdfs:Class .
+ex:InstitutionEnseignement rdf:type rdfs:Class .
+ex:Universite rdf:type rdfs:Class .
+ex:Personne rdf:type rdfs:Class .
+ex:Etudiant rdf:type rdfs:Class .
+ex:Enseignant rdf:type rdfs:Class .
+ex:EtudiantMaster rdf:type rdfs:Class .
+ex:EtudiantDoctorat rdf:type rdfs:Class .
+
+# Definition des relations entre les classes
+ex:InstitutionRecherche rdfs:subClassOf ex:Institution .
+ex:InstitutionEnseignement rdfs:subClassOf ex:Institution .
+ex:Universite rdfs:subClassOf ex:InstitutionRecherche .
+ex:Universite rdfs:subClassOf ex:InstitutionEnseignement .
+ex:Enseignant rdfs:subClassOf ex:Personne .
+ex:Etudiant rdfs:subClassOf ex:Personne .
+ex:EtudiantDoctorat rdfs:subClassOf ex:Enseignant .
+ex:EtudiantDoctorat rdfs:subClassOf ex:Etudiant .
+ex:EtudiantMaster rdfs:subClassOf ex:Etudiant .
+ex:EtudiantDoctorat rdfs:comment "Etudiant et enseignant" .
+
+# Definition des predicats
+ex:employePar rdf:type rdf:Property .
+ex:employePar rdfs:domain ex:Personne .
+ex:employePar rdfs:range ex:Institution .
+ex:dirige rdf:type rdf:Property .
+ex:dirige rdfs:domain ex:Personne .
+ex:dirige rdfs:range rdf:List.
+```
+
 **2.** Le schéma **RDF** sauivant:
 
 ```
@@ -221,10 +260,12 @@ Ou si on abrège:
 ```xml
 <?xml version="1.0"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:ex="http://example.org#" xml:base="http://example.org">
+    
     <rdfs:Class rdf:ID="ClasseA" />
     <rdfs:Class rdf:ID="ClasseB">
         <rdfs:subClassOf rdf:resource="#ClasseA" />
     </rdfs:Class>
+
     <ex:ClasseB rdf:ID="unB" />
 </rdf:RDF>
 ```
@@ -241,3 +282,7 @@ WHERE {
 ```
 
 *Note:* La fonction du filtre est de sélectionner uniquement les classes définies dans l’espace de noms http://example.org (l’opérateur ^ vérifie que le nom de la ressource débute par l’espace de noms).
+
+```xml
+
+```
