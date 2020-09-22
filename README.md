@@ -332,3 +332,37 @@ WHERE {
 
 </rdf:RDF>
 ```
+
+**3.** Étendre le schéma précédent en incluant un ensemble d’individus (instances) des classes définies au point précédent (enseignants, étudiants... ). Pour la relation dirige une collection sera utilisée comme objet pour indiquer que l’on peut diriger un ensemble de personnes. Utiliser la notation **N3** qui est plus concise à écrire puis utiliser les convertisseurs **RDF** Distiller ou **RDF** Translator pour le convertir au format **RDF**/**XML**. À partir de la requête **SPARQL** précédente, écrire une nouvelle requête sélectionnant uniquement les individus.
+
+```xml
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ulr: <http://www.univ-larochelle.fr#> .
+@prefix ex: <http://example.org/#> .
+
+# ici on utilise des identifiants pour identifier les ressources 
+# de type Personne mais ce serait mieux d'utiliser 
+# des noeuds anonymes avec le prédicat "ex:nom"
+
+<http://www.univ-larochelle.fr> a ex:Universite .
+ulr:FredMartin a ex:EtudiantDoctorat .
+ulr:HenriDurand a ex:Etudiant .
+ulr:RobertDupond a ex:Enseignant .
+ulr:HerveBlanchon a ex:Enseignant .
+ulr:FredMartin ex:employePar <http://www.univ-larochelle.fr> .
+ulr:RobertDupond ex:dirige ( ulr:FredMartin ulr:HerveBlanchon ) .
+```
+
+La requête **SPARQL**:
+
+```SQL
+PREFIX ex:  <http://example.org#> 
+
+SELECT  ?x
+WHERE
+{ ?x rdf:type ?y .
+   FILTER (?y ^ ex: )
+}
+```
+
+**4.** 
