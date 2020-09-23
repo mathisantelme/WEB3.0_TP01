@@ -379,3 +379,114 @@ WHERE
 <http://www.univ-larochelle.fr/HerveBlanchon> rdf:type ex:Personne .
 ```
 
+## 5. Référencement de produits
+
+Un magasin offre les produits suivants:
+
+```xml
+<?xml version="1.1"?>
+
+<products>
+    <book>
+        <title>Learning XML</title>
+        <author>EricRay</author>
+        <price>30.00</price>
+    </book>
+    <cd>
+        <title>for you</title>
+        <interpret>Frank Chastenier</interpret>
+        <price>15.00</price>
+    </cd>
+    <dvd>
+        <title>Goldrush</title>
+        <director>Charly Chaplin</director>
+        <price>19.00</price>
+    </dvd>
+</products>
+```
+
+Représenter l’ensemble des produits avec **RDF** et un schéma **RDF** (le format peut être **RDF**/**N3** ou **RDF**/**XML**) en décrivant le vocabulaire de manière aussi précise que possible. On souhaite notamment faire apparaître que le magasin offre une liste de produits. Pour les livres, utiliser la norme Dublin Core qui possède un schéma **RDF**.
+
+Le schéma des produits au format **RDF**/**N3**:
+
+```xml
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
+@prefix ex:  <http://example.org#> . 
+
+_:b a ex:Book ;
+    ex:title "Learning XML" ;
+    ex:author "Eric Ray" ;
+    ex:price "30.00"  .
+
+_:c a ex:Cd ;
+    ex:title "For you" ;
+    ex:interpret "Franck Chastenier" ;
+    ex:price "15.00" .
+
+_:d a ex:Dvd ;
+    ex:title "For you" ;
+    ex:director "Charly Chaplin" ;
+    ex:price "19.00" .
+
+_:m a ex:Shop ;
+    ex:offer (_:b _:c _:d ) .
+```
+
+Le schéma des produits au format **RDF**/**XML**:
+
+```xml
+<?xml version="1.1"?>
+
+<products xmlns:xsi=" http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="products.xsd">
+    <book>
+        <title>Learning XML</title>
+        <author>EricRay</author>
+        <price>30.00</price>
+    </book>
+    <cd>
+        <title>for you</title>
+        <interpret>Frank Chastenier</interpret>
+        <price>15.00</price>
+    </cd>
+    <dvd>
+        <title>Goldrush</title>
+        <director>Charly Chaplin</director>
+        <price>19.00</price>
+    </dvd>
+</products>
+```
+
+```xml
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
+@prefix ex:  <http://example.org#> . 
+
+ex:Product a rdfs:Class .
+ex:Shop a rdfs:Class .
+ex:Book a rdfs:Class ;
+        rdfs:subClassOf ex:Product .
+ex:Cd a rdfs:Class ;
+        rdfs:subClassOf ex:Product .
+ex:Dvd a rdfs:Class ;
+        rdfs:subClassOf ex:Product .
+
+ex:title a rdf:Property ;
+        rdfs:domain ex:Product ;
+        rdfs:range rdfs:Literal .
+ex:author a rdf:Property ;
+        rdfs:domain ex:Book ;
+        rdfs:range rdfs:Literal .
+ex:price a rdf:Property ;
+        rdfs:domain ex:Product ;
+        rdfs:range rdfs:Datatype .
+ex:interpret a rdf:Property ;
+        rdfs:domain ex:Cd ;
+        rdfs:range rdfs:Literal .
+ex:director a rdf:Property ;
+        rdfs:domain ex:Dvd ;
+        rdfs:range rdfs:Literal .
+ex:offer a rdf:Property ;
+        rdfs:domain ex:Shop ;
+        rdfs:range rdf:List .
+```
